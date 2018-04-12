@@ -24,26 +24,27 @@ function isSuperbalanced(t, cur = 1, min = Infinity, max = -Infinity) {
   
   if (t.left === null && t.right === null) {
     console.log('leaf found!', t.value);
-    return cur;
+    return [cur, cur];
   }
 
   if (t.left !== null) {
     let left = isSuperbalanced(t.left, cur + 1);
-    min = Math.min(left, cur);
-    max = Math.max(left, cur);
+    // console.log(left);
+    min = Math.min(left[0], min);
+    max = Math.max(left[1], max);
   }
   
   if (t.right !== null) {
     let right = isSuperbalanced(t.right, cur + 1);
-    min = Math.min(right, cur);
-    max = Math.max(right, cur);
+    min = Math.min(right[0], min);
+    max = Math.max(right[1], max);
   }
   
-  console.log(min, max);
   if (cur === 1) {
-    return max - min > 1;
+    console.log(min, max);
+    return max - min <= 1;
   } else {
-    return cur;
+    return [min, max];
   }
   
 }
@@ -51,10 +52,9 @@ function isSuperbalanced(t, cur = 1, min = Infinity, max = -Infinity) {
 
 
 
-
-
-
-
+// ==================
+// TESTS:
+// ==================
 
 
 // superbalanced tree
