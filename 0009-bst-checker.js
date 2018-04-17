@@ -26,6 +26,9 @@ BinaryTreeNode.prototype.insertRight = function(value) {
 
 function isValidBST(tree, leftLimit, rightLimit) {
   
+  leftLimit = (typeof leftLimit !== 'undefined') ? leftLimit : -Infinity;
+  rightLimit = (typeof rightLimit !== 'undefined') ? rightLimit :  Infinity;
+  
   if (!tree) {
     return true;
   }
@@ -34,40 +37,35 @@ function isValidBST(tree, leftLimit, rightLimit) {
     return true;
   }
 
-  console.log(`value: ${tree.value}, leftLimit: ${leftLimit}, rightLimit: ${rightLimit}`);
+  // console.log(`value: ${tree.value}, leftLimit: ${leftLimit}, rightLimit: ${rightLimit}`);
   
   if (tree.left) {
-    console.log('left: ', tree.left.value);
+    // console.log('left: ', tree.left.value);
     if (tree.left.value >= tree.value) {
       console.log('hit left false');
       return false;
     }
-    if (!leftLimit) {
-      if (tree.left.value <= leftLimit) {
-        console.log('hit leftLimit false');
-        return false;
-      }
+    if (tree.left.value <= leftLimit) {
+      console.log('hit leftLimit false');
+      return false;
     }
-    rightLimit = tree.value;
   }
   
   if (tree.right) {
-    console.log('right: ', tree.right.value);
+    // console.log('right: ', tree.right.value);
     if (tree.right.value <= tree.value) {
-      console.log('hit right false');
+      // console.log('hit right false');
       return false;
     }
-    if (!rightLimit) {
-      if (tree.right.value >= rightLimit) {
-        console.log('hit rightLimit false');
-        return false;
-      }
-      
+    if (tree.right.value >= rightLimit) {
+      // console.log('hit rightLimit false');
+      return false;
     }
-    leftLimit = tree.value;
+
+    // leftLimit = tree.value;
   }
   
-  return isValidBST(tree.left, leftLimit, rightLimit) && isValidBST(tree.right, leftLimit, rightLimit);
+  return isValidBST(tree.left, leftLimit, tree.value) && isValidBST(tree.right, tree.value, rightLimit);
 }
 
 
